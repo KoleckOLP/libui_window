@@ -36,6 +36,4 @@ Remove build artifacts with:
 
 ## TODO
 
-- add a .gitignore (.res .exe .o)
-- add libui-ng as a (recursive module https://github.com/libui-ng/libui-ng)
 - check if it build on linux / mac OS

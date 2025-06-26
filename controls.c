@@ -1,3 +1,4 @@
+// controls.c
 #include "ui.h"
 
 typedef struct {
@@ -7,6 +8,7 @@ typedef struct {
 
 // Callback for Yes button
 static void on_yes_clicked(uiButton *b, void *data) {
+    (void)b;  // Prevent unused parameter warning
     DialogContext *ctx = (DialogContext *)data;
     ctx->result = 1;
     uiControlDestroy(uiControl(ctx->dialog));
@@ -14,6 +16,7 @@ static void on_yes_clicked(uiButton *b, void *data) {
 
 // Callback for No button
 static void on_no_clicked(uiButton *b, void *data) {
+    (void)b;  // Prevent unused parameter warning
     DialogContext *ctx = (DialogContext *)data;
     ctx->result = 0;
     uiControlDestroy(uiControl(ctx->dialog));
