@@ -20,6 +20,7 @@ void onButtonClicked(uiButton *b, void *data) {
     uiMsgBox(win, "Hello", "You clicked the button!");
 
 // Windows only code to return focus to the original window when when Message Box is closed
+// not needed for macOS it retuns focus just fine
 #ifdef _WIN32
     HWND hwnd = (HWND) uiControlHandle(uiControl(win));
     if (IsWindow(hwnd))
