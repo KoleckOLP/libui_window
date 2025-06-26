@@ -45,3 +45,10 @@ Remove build artifacts with:
 
 - Test on other platforms like, Linux and macOS.
 - macOS linker line: `gcc -Llibui-ng/builddir/meson-out -lui -framework CoreText -framework CoreGraphics -framework Foundation -framework AppKit controls.o main.o -o myapp`
+- to not have the macOS verion open a terminal make an app bundle
+myapp.app/
+└── Contents/
+    ├── MacOS/
+    │   └── myapp - your_executable (or script)
+    └── Info.plist
+- edit the make file to make an .app on macOS
