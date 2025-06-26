@@ -44,3 +44,4 @@ Remove build artifacts with:
 ## TODO
 
 - Test on other platforms like, Linux and macOS.
+- macOS linker line: `gcc -Llibui-ng/builddir/meson-out -lui -framework CoreText -framework CoreGraphics -framework Foundation -framework AppKit controls.o main.o -o myapp`

@@ -56,3 +56,10 @@ dkms.conf
 
 # vscode project folder
 .vscode/
+
+# macOS garbage file
+.DS_Store
+
+# macOS executable
+myapp
+myapp.app
