@@ -49,7 +49,7 @@ int main(void) {
         return 1;  // Return failure if inicialization failed
     }
 
-    //printf("does output work\n");  // debug
+    printf("Console output enabled!\n");  // debug Console print
 
     // Create main application window with title and dimensions
     uiWindow *win = uiNewWindow("Hello libui", 300, 150, 0);

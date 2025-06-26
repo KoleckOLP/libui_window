@@ -2,9 +2,10 @@
 CC ?= gcc
 WINDRES = windres
 # libui-ng is C99 so we follow
-CFLAGS = -Ilibui-ng -Wall -Wextra -O2 -std=c99
-LDFLAGS = -Llibui-ng/builddir/meson-out -lui -lstdc++ -lcomctl32 -lole32 -luuid -ld2d1 -ldwrite -lgdi32
-#-mwindows
+CFLAGS_PROD = -Ilibui-ng -Wall -Wextra -O2 -std=c99
+CFLAGS_DEBUG = -Ilibui-ng -Wall -Wextra -g -O0 -std=c99 -DDEBUG
+LDFLAGS_PROD = -Llibui-ng/builddir/meson-out -lui -lstdc++ -lcomctl32 -lole32 -luuid -ld2d1 -ldwrite -mwindows
+LDFLAGS_DEBUG = -Llibui-ng/builddir/meson-out -lui -lstdc++ -lcomctl32 -lole32 -luuid -ld2d1 -ldwrite -lgdi32
 SRC = controls.c main.c 
 OBJ = $(SRC:.c=.o)
 RC = myapp.rc
@@ -12,7 +13,15 @@ RES = myapp.res
 MANIFEST = myapp.manifest
 OUT = myapp.exe
 
-all: $(OUT)
+all: prod
+
+prod: CFLAGS := $(CFLAGS_PROD)
+prod: LDFLAGS := $(LDFLAGS_PROD)
+prod: $(OUT)
+
+debug: CFLAGS := $(CFLAGS_DEBUG)
+debug: LDFLAGS := $(LDFLAGS_DEBUG)
+debug: $(OUT)
 
 libui-ng/builddir/meson-out/libui.a:
 	cd libui-ng && meson setup builddir --buildtype=release --default-library=static

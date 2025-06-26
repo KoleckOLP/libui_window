@@ -2,12 +2,18 @@
 
 This is a simple example project demonstrating usage of libui-ng with a basic GUI on Windows.
 
+### clone recursively!
+
+```
+git clone --recursive https://github.com/KoleckOLP/libui_window.git
+```
+
 ## Requirements
 
-- Windows OS (for now)
-- GCC (MinGW or similar) with windres
-- libui-ng built and available in libui-ng directory (recursive module https://github.com/libui-ng/libui-ng)
-- Standard Windows libraries (comctl32, ole32, uuid, d2d1, dwrite)
+- Windows OS (currently only tested on Windows)
+- GCC (MSYS / MingGW) with windres
+- libui-ng clone with the repo, built with make.
+- Standard Windows libraries (comctl32, ole32, uuid, d2d1, dwrite, dgi32) they come with Windows.
 
 ## Building
 
@@ -15,18 +21,19 @@ Run make to build the executable myapp.exe.
 
 `make`
 
-This compiles main.c and links it against libui-ng and required Windows libraries. It also compiles the Windows resource file myapp.rc into myapp.res.
+This builds libui-ng, controls.c main.c as well as Windows resource file and links them all together with Windows libraries. Production build by default.
 
-## Running
+## other make commands
 
-Run the application with:
+`make clean debug run`
 
-`make run`
+Builds the debug build and runs it, this one has Console output.
 
-or
+`make clean prod run`
 
-`./myapp.exe`
+Builds the prod build and runs it, optimized and not Console ouput.
 
+changing between proc and debug needs a `make clean`.
 
 ## Cleaning
 
@@ -36,4 +43,4 @@ Remove build artifacts with:
 
 ## TODO
 
-- check if it build on linux / mac OS
+- Test on other platforms like, Linux and macOS.
