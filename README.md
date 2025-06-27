@@ -12,7 +12,10 @@ git clone --recursive https://github.com/KoleckOLP/libui_window.git
 
 ### Windows
 
-- gcc or clang (MSYS / MingGW) with windres, meson, ninja
+- make
+- gcc or clang (MSYS / MingGW)
+- g++ or clang++ (MSYS / MingGW)
+- windres, meson, ninja
 - libui-ng clone with the repo, built with make.
 - Standard Windows libraries (comctl32, ole32, uuid, d2d1, dwrite, dgi32) they come with Windows.
 
@@ -22,13 +25,29 @@ To build and run: (Windows Executable)
 
 ### macOS
 
-- gcc or clang (symlinked to gcc) with meson, ninja
+- make
+- gcc or clang (symlinked to gcc)
+- g++ or clang++ (symlinked to g++)
+- meson, ninja
 - libui-ng clone with the repo, built with make.
 - Standard macOS libraries (CoreText, CoreGraphics, Foundation, AppKit) tehy come with macOS
 
-To build and run: (AppBundle)
+To build and run: (macOS AppBundle)
 
 `make runapp`
+
+### Linux
+
+- make
+- gcc or clang (symlinked to gcc)
+- g++ or clang++ (symlinked to g++)
+- meson, ninja
+- libui-ng clone with the repo, built with make.
+- gtk3-devel, pkg-config
+
+To build and run: (Linux ELF executable)
+
+`make run`
 
 ## Building
 
@@ -62,7 +81,5 @@ Remove build artifacts with:
 
 ## TODO
 
-- Improve the Makefile
 - make a list of MSYS packages for Windows build
-- Test on other platforms like Linux
-- perhaps Haiku, BSD or anything else but probalby libui-ng doesn't support those.
+- Try on weird platforms like BSD or Haiku, but libui-ng probably doesn't support those.
