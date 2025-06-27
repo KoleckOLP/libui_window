@@ -8,6 +8,9 @@
 #ifdef __APPLE__
 #include <CoreGraphics/CoreGraphics.h>
 #endif
+#ifdef __linux__
+#include <gtk/gtk.h>
+#endif
 
 // External dependencies (submodules)
 #include "ui.h"
@@ -39,18 +42,32 @@ int show_yes_no_dialog(const char *title, const char *message) {
     int windowWidth = 200;
     int windowHeight = 50;
 
+    int screenWidth = 640;
+    int screenHeight = 480;
+
     uiWindow *dialog = uiNewWindow(title, windowWidth, windowHeight, 0);
 
     #ifdef _WIN32
-        int screenWidth = GetSystemMetrics(SM_CXSCREEN);
-        int screenHeight = GetSystemMetrics(SM_CYSCREEN);
+        screenWidth = GetSystemMetrics(SM_CXSCREEN);
+        screenHeight = GetSystemMetrics(SM_CYSCREEN);
     #endif
 
     // TODO: Test this code on macOS !!!
     #ifdef __APPLE__
         CGDirectDisplayID display = CGMainDisplayID();
-        int screenWidth = (int)CGDisplayPixelsWide(display);
-        int screenHeight = (int)CGDisplayPixelsHigh(display);
+        screenWidth = (int)CGDisplayPixelsWide(display);
+        screenHeight = (int)CGDisplayPixelsHigh(display);
+    #endif
+
+    #ifdef __linux__
+        GdkDisplay *display = gdk_display_get_default();
+        if (display) {
+            GdkScreen *screen = gdk_display_get_default_screen(display);
+            if (screen) {
+                screenWidth = gdk_screen_get_width(screen);
+                screenHeight = gdk_screen_get_height(screen);
+            }
+        }
     #endif
 
     int posX = (screenWidth - windowWidth) / 2;
