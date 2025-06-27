@@ -33,7 +33,7 @@ MANIFEST = myapp.manifest
 OUT = myapp
 APPBUNDLE = myapp.app/
 
-ifeq ($(PLATFORM),MinGW)
+ifeq ($(PLATFORM),Windows)
 LDFLAGS_PROD = -Llibui-ng/builddir/meson-out -lui -lstdc++ -lcomctl32 -lole32 -luuid -ld2d1 -ldwrite -mwindows -static
 LDFLAGS_DEBUG = -Llibui-ng/builddir/meson-out -lui -lstdc++ -lcomctl32 -lole32 -luuid -ld2d1 -ldwrite -lgdi32
 else ifeq ($(PLATFORM),macOS)
@@ -42,7 +42,7 @@ LDFLAGS_PROD := -Llibui-ng/builddir/meson-out -lui -framework CoreText -framewor
 LDFLAGS_DEBUG := -Llibui-ng/builddir/meson-out -lui -framework CoreText -framework CoreGraphics -framework Foundation -framework AppKit
 endif
 
-ifeq ($(PLATFORM),MinGW)
+ifeq ($(PLATFORM),Windows)
 all: prod
 else ifeq ($(PLATFORM),macOS)
 all: prod $(APPBUNDLE)
@@ -73,7 +73,7 @@ libui-ng/builddir/meson-out/libui.a:
 $(RES): $(RC) $(MANIFEST)
 	$(WINDRES) $< -O coff -o $@
 
-ifeq ($(PLATFORM),MinGW)
+ifeq ($(PLATFORM),Windows)
 $(OUT): libui-ng/builddir/meson-out/libui.a $(OBJ) $(RES)
 	$(CC) $(OBJ) $(RES) $(LDFLAGS) -o $@
 else ifeq ($(PLATFORM),macOS)
