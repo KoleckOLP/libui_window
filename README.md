@@ -13,33 +13,33 @@ git clone --recursive https://github.com/KoleckOLP/libui_window.git
 ### Windows 11
 
 <p float="left">
-  <img src="promo/Windows11.png" width="300" />
-  <img src="promo/Windows11_messageBox.png" width="300" />
-  <img src="promo/Windows11_exit.png" width="300" />
+  <img src="promo/Windows11.png" width="200" />
+  <img src="promo/Windows11_messageBox.png" width="200" />
+  <img src="promo/Windows11_exit.png" width="200" />
 </p>
 
 ### Windows 10
 
 <p float="left">
-  <img src="promo/Windows10.png" width="300" />
-  <img src="promo/Windows10_messageBox.png" width="300" />
-  <img src="promo/Windows10_exit.png" width="300" />
+  <img src="promo/Windows10.png" width="200" />
+  <img src="promo/Windows10_messageBox.png" width="200" />
+  <img src="promo/Windows10_exit.png" width="200" />
 </p>
 
 ### macOS
 
 <p float="left">
-  <img src="promo/macOS.png" width="300" />
-  <img src="promo/macOS_messageBox.png" width="300" />
-  <img src="promo/macOS_exit.png" width="300" />
+  <img src="promo/macOS.png" width="200" />
+  <img src="promo/macOS_messageBox.png" width="200" />
+  <img src="promo/macOS_exit.png" width="200" />
 </p>
 
 ### Linux KDE
 
 <p float="left">
-  <img src="promo/Linux.png" width="300" />
-  <img src="promo/Linux_messageBox.png" width="300" />
-  <img src="promo/Linux_exit.png" width="300" />
+  <img src="promo/Linux.png" width="200" />
+  <img src="promo/Linux_messageBox.png" width="200" />
+  <img src="promo/Linux_exit.png" width="200" />
 </p>
 
 ## Requirements
