@@ -3,20 +3,15 @@ UNAME_S := $(shell uname -s 2>/dev/null || echo Unknown)
 OS_VAR := $(OS)
 
 ifeq ($(OS_VAR),Windows_NT)
-  # Could be native Windows or MinGW (Git Bash etc.)
-  ifneq (,$(findstring MINGW,$(UNAME_S)))
-    PLATFORM := MinGW
-  else
-    PLATFORM := Windows
-  endif
+	PLATFORM := Windows
 else
-  ifeq ($(UNAME_S),Darwin)
-    PLATFORM := macOS
-  else ifeq ($(UNAME_S),Linux)
-    PLATFORM := Linux
-  else
-    PLATFORM := Unknown
-  endif
+	ifeq ($(UNAME_S),Darwin)
+		PLATFORM := macOS
+	else ifeq ($(UNAME_S),Linux)
+		PLATFORM := Linux
+	else
+		PLATFORM := Unknown
+	endif
 endif
 
 # Variables
@@ -40,9 +35,14 @@ else ifeq ($(PLATFORM),macOS)
 LDFLAGS_PROD := -Llibui-ng/builddir/meson-out -lui -framework CoreText -framework CoreGraphics -framework Foundation -framework AppKit
 # there no linker change between prod and debug cause macOS libraries doesn't support static linking
 LDFLAGS_DEBUG := -Llibui-ng/builddir/meson-out -lui -framework CoreText -framework CoreGraphics -framework Foundation -framework AppKit
+else ifeq ($(PLATFORM),Linux)
+CFLAGS_PROD = -Ilibui-ng -Wall -Wextra -O2 -std=c99 -static $(shell pkg-config --cflags gtk+-3.0)
+CFLAGS_DEBUG = -Ilibui-ng -Wall -Wextra -g -O0 -std=c99 -DDEBUG $(shell pkg-config --cflags gtk+-3.0)
+LDFLAGS_PROD = -Llibui-ng/builddir/meson-out -lui $(shell pkg-config --libs gtk+-3.0)
+LDFLAGS_DEBUG = -Llibui-ng/builddir/meson-out -lui $(shell pkg-config --libs gtk+-3.0)
 endif
 
-ifeq ($(PLATFORM),Windows)
+ifneq (,$(filter $(PLATFORM),Windows Linux))
 all: prod
 else ifeq ($(PLATFORM),macOS)
 all: prod $(APPBUNDLE)
@@ -76,7 +76,7 @@ $(RES): $(RC) $(MANIFEST)
 ifeq ($(PLATFORM),Windows)
 $(OUT): libui-ng/builddir/meson-out/libui.a $(OBJ) $(RES)
 	$(CC) $(OBJ) $(RES) $(LDFLAGS) -o $@
-else ifeq ($(PLATFORM),macOS)
+else ifneq (,$(filter $(PLATFORM),macOS Linux))
 $(OUT): libui-ng/builddir/meson-out/libui.a $(OBJ)
 	$(CC) $(OBJ) $(LDFLAGS) -o $@
 endif
