@@ -6,6 +6,9 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #endif
+#ifdef __APPLE__
+#include <CoreGraphics/CoreGraphics.h>
+#endif
 
 // External dependencies (submodules)
 #include "ui.h"  // libui-ng headder
@@ -52,8 +55,28 @@ int main(void) {
 
     printf("Console output enabled!\n");  // debug Console print
 
+    int windowWidth = 300;
+    int windowHeight = 150;
+
     // Create main application window with title and dimensions
-    uiWindow *win = uiNewWindow("Hello libui", 300, 150, 0);
+    uiWindow *win = uiNewWindow("Hello libui", windowWidth, windowHeight, 0);
+
+    #ifdef _WIN32
+        int screenWidth = GetSystemMetrics(SM_CXSCREEN);
+        int screenHeight = GetSystemMetrics(SM_CYSCREEN);
+    #endif
+
+    // TODO: Test this code on macOS !!!
+    #ifdef __APPLE__
+        CGDirectDisplayID display = CGMainDisplayID();
+        int screenWidth = (int)CGDisplayPixelsWide(display);
+        int screenHeight = (int)CGDisplayPixelsHigh(display);
+    #endif
+
+    int posX = (screenWidth - windowWidth) / 2;
+    int posY = (screenHeight - windowHeight) / 2;
+
+    uiWindowSetPosition(win, posX, posY);
 
     // Create a vertical box layout container to hold other UI elements
     uiBox *box = uiNewVerticalBox();
