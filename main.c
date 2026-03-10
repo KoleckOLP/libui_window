@@ -19,8 +19,9 @@
 // Local dependencies (this project)
 #include "controls.h"
 
+// macOS shim for Command+Q keyboard shortcut to quit the app
 #ifdef __APPLE__
-void install_cmdq_monitor(void *win);
+    #include "macos_cmdq.h"
 #endif
 
 
@@ -95,9 +96,8 @@ int main(void) {
         CGDirectDisplayID display = CGMainDisplayID();
         screenWidth = (int)CGDisplayPixelsWide(display);
         screenHeight = (int)CGDisplayPixelsHigh(display);
-    #endif
 
-    #ifdef __APPLE__
+        // Install a monitor to watch for Command+Q key presses to quit the app on macOS (Objective-C)
         install_cmdq_monitor(win);
     #endif
 
@@ -146,9 +146,6 @@ int main(void) {
 
     // Start the main UI event loop
     uiMain();
-
-    // Destroy the window and all child controls before shutting down libui
-    //uiControlDestroy(uiControl(win));
 
     // Clean up libui resources when the app exits
     uiUninit();

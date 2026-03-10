@@ -1,3 +1,4 @@
+// macos_cmdq.m
 #import <AppKit/AppKit.h>
 
 extern int request_app_exit(void *win);
