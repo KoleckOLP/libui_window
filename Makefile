@@ -95,6 +95,8 @@ run: prod $(OUT)
 	./$(OUT)
 
 # macOS only
+app: prod $(APPBUNDLE)
+
 runapp: prod $(APPBUNDLE)
 	open $(APPBUNDLE)
 
