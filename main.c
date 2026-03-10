@@ -19,6 +19,10 @@
 // Local dependencies (this project)
 #include "controls.h"
 
+#ifdef __APPLE__
+void install_cmdq_monitor(void *win);
+#endif
+
 
 void onButtonClicked(uiButton *b, void *data) {
     (void)b;  // Prevent unused parameter warning
@@ -35,16 +39,27 @@ void onButtonClicked(uiButton *b, void *data) {
 }
 
 
-int onWindowClosing(uiWindow *sender, void *data) {
-    (void)sender;  // Prevent unused parameter warning
-    (void)data;  // Prevent unused parameter warning
+int request_app_exit(void *winptr) {
+    uiWindow *win = (uiWindow *)winptr;
+
     int answer = show_yes_no_dialog("Exit?", "Are you sure you want to exit?");
-    //fprintf(stderr, "%d\n", answer);  // debug prints user choice
-    if (answer == 1) {  // User clicked Yes
-        uiQuit();  // Stop main loop and allow app to exit
-        return 1;  // Allow the window to close
-    }
-    return 0;  // Prevent window closing, user clicked No
+    if (answer != 1)
+        return 0;
+
+    uiControlDestroy(uiControl(win));
+    uiQuit();
+    return 1;
+}
+
+
+int onWindowClosing(uiWindow *sender, void *data) {
+    (void)data;
+    request_app_exit(sender);
+    return 0;
+}
+
+int onShouldQuit(void *data) {
+    return request_app_exit(data);
 }
 
 
@@ -64,6 +79,9 @@ int main(void) {
     int screenWidth = 640;
     int screenHeight = 480;
 
+    uiMenu *fileMenu = uiNewMenu("File");
+    uiMenuAppendQuitItem(fileMenu);
+
     // Create main application window with title and dimensions
     uiWindow *win = uiNewWindow("Hello libui", windowWidth, windowHeight, 0);
 
@@ -77,6 +95,10 @@ int main(void) {
         CGDirectDisplayID display = CGMainDisplayID();
         screenWidth = (int)CGDisplayPixelsWide(display);
         screenHeight = (int)CGDisplayPixelsHigh(display);
+    #endif
+
+    #ifdef __APPLE__
+        install_cmdq_monitor(win);
     #endif
 
     #ifdef __linux__
@@ -115,13 +137,18 @@ int main(void) {
     uiWindowSetChild(win, uiControl(box));
 
     // Set up the callback for when the window is closed
-    uiWindowOnClosing(win, onWindowClosing, NULL);
+    uiWindowOnClosing(win, onWindowClosing, win);
+
+    uiOnShouldQuit(onShouldQuit, win);
 
     // Show the window on screen
     uiControlShow(uiControl(win));
 
     // Start the main UI event loop
     uiMain();
+
+    // Destroy the window and all child controls before shutting down libui
+    //uiControlDestroy(uiControl(win));
 
     // Clean up libui resources when the app exits
     uiUninit();

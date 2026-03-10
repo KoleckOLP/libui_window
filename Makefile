@@ -20,8 +20,15 @@ WINDRES = windres
 # libui-ng is C99 so we follow
 CFLAGS_PROD = -Ilibui-ng -Wall -Wextra -O2 -std=c99 -static
 CFLAGS_DEBUG = -Ilibui-ng -Wall -Wextra -g -O0 -std=c99 -DDEBUG
-SRC = controls.c main.c 
+SRC = controls.c main.c
 OBJ = $(SRC:.c=.o)
+
+ifeq ($(PLATFORM),macOS)
+OBJC_SRC = macos_cmdq.m
+OBJC_OBJ = $(OBJC_SRC:.m=.o)
+OBJ += $(OBJC_OBJ)
+endif
+
 RC = myapp.rc
 RES = myapp.res
 MANIFEST = myapp.manifest
@@ -66,7 +73,10 @@ libui-ng/builddir/meson-out/libui.a:
 	cd libui-ng && meson setup builddir --buildtype=release --default-library=static
 	cd libui-ng && ninja -C builddir
 
-%.o: %.c
+%.o: %.c 
+	$(CC) $(CFLAGS) -c $< -o $@
+
+%.o: %.m
 	$(CC) $(CFLAGS) -c $< -o $@
 
 # Windows only
